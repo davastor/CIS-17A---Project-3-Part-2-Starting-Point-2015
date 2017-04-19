@@ -5,7 +5,7 @@ void DisplayMenu(shared_ptr<Folder> currentFolder, shared_ptr<Folder> parent);
 void AddFileMenu(shared_ptr<Folder> currentFolder);
 void AddFolderMenu(shared_ptr<Folder> currentFolder);
 shared_ptr<Folder> NavigateToFolder(shared_ptr<Folder> currentFolder);
-shared_ptr<File> FindFile(shared_ptr<Folder> currentFolder);
+shared_ptr<File> FindFile(shared_ptr<Folder> currentFolder, string &fileLocation);
 
 int main()
 {
@@ -29,10 +29,12 @@ int main()
 		}
 		case 5: 
 		{
-			auto file = FindFile(currentFolder);
+			string fileLocation = "";
+			auto file = FindFile(currentFolder, fileLocation);
 			if (file != nullptr)
 			{
 				cout << file->getName() << " was found. " << endl;
+				cout << "It was found in " + fileLocation << endl;
 			}
 			else
 				cout << "That file does not exist. " << endl;
@@ -104,7 +106,7 @@ void AddFolderMenu(shared_ptr<Folder> currentFolder)
 	currentFolder->AddFolder(newFolder);
 }
 
-shared_ptr<File> FindFile(shared_ptr<Folder> currentFolder)
+shared_ptr<File> FindFile(shared_ptr<Folder> currentFolder, string &fileLocation)
 {
 	system("cls");
 	cout << "Enter the file name: ";
@@ -112,6 +114,6 @@ shared_ptr<File> FindFile(shared_ptr<Folder> currentFolder)
 	cin >> name;
 	cin.ignore();
 
-	auto file = currentFolder->FindFile(name);
+	auto file = currentFolder->FindFile(name, fileLocation);
 	return file;
 }
